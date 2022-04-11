@@ -4,7 +4,7 @@
   <version>2.0.2</version>
   <description>Package for zybo-based robotic vehicle</description>
   <maintainer email="adejonge@oakland.edu">abc</maintainer>
-  <license>TODO</license>
+  <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>

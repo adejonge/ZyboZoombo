@@ -17,6 +17,7 @@ const double pdot_tolerance = 0.02;
 
 void recvTwist(const geometry_msgs::TwistStamped::ConstPtr& msg)
 {
+
   vx_actual = msg->twist.linear.x;
   pdot_actual = msg->twist.angular.z;
   received_twist = true;
