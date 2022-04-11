@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+  <include file="$(find ugv_course_launch)/launch/audibot_homework3.launch" />
+  <node pkg="zybozoombo" type="test_zybo_drive" name="test_zybo_srive" output="screen" />
+
+  <!-- Run your node here! -->
+  <node pkg="zybozoombo" type="zybo_drive" name="zybo_drive"/>
+
+</launch>
