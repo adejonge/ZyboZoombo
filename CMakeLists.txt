@@ -24,7 +24,12 @@ target_link_libraries(test_zybo_drive
   ${GTEST_LIBRARIES}
 )
 
-install(TARGETS zzpub
+###########
+## Build ##
+###########
+
+
+install(TARGETS zybo_drive
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
