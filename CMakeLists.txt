@@ -5,6 +5,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
 )
 
+catkin_metapackage()
+
 catkin_package(CATKIN_DEPENDS roscpp)
 
 include_directories(
