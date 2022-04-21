@@ -6,6 +6,5 @@
 
   <!-- Run your node here! -->
   <node pkg="zybozoombo" type="zybo_drive" name="zybo_drive"/>
-  <node pkg="zybozoombo" type="zybo_stim" name="zybo_stim"/>
 
 </launch>

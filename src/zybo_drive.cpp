@@ -11,6 +11,7 @@ WHEEL_LENGTH: 0.1524m
 //  (in our case, servo angle) to tire angle
 const double GAMMA = 600;
 
+
 ros::Publisher steering_cmd;
 ros::Publisher cmd_vel;
 
@@ -36,14 +37,19 @@ if(*PLCommand == 0) { //strong left
   v = 0.0;
   psi_dot = 0.0;
 }
-  
+
+
+}
+
+void recvTwist(const geometry_msgs::TwistConstPtr& msg){
+  double v = msg->linear.x;
+  double psi_dot = msg->angular.z;
 
   geometry_msgs::Twist vel;
   std_msgs::Float64 steering;
 
   vel.linear.x = v;
   steering.data = GAMMA*atan((WHEEL_LENGTH*psi_dot)/v);
-  *ServoOutput = 64;
 
   cmd_vel.publish(vel);
   steering_cmd.publish(steering);
@@ -55,9 +61,10 @@ int main(int argc, char** argv){
   ros::NodeHandle zybo_drive;
 
   cmd_vel = zybo_drive.advertise<geometry_msgs::Twist>("audibot/cmd_vel", 1);
-  steering_cmd = zybo_drive.advertise<std_msgs::Float64>("audibot/steering_cmd", 1);
+  
 
-  ros::Timer marker_timer = zybo_drive.createTimer(ros::Duration(1.0/60), timerCallback);
+  ros::Timer marker_timer = zybo_drive.createTimer(ros::Duration(60), timerCallback);
+  ros::Subscriber sub_twist = zybo_drive.subscribe("twist_cmd", 1, recvTwist);
 
   ros::spin();
 }
