@@ -62,18 +62,6 @@ TEST(ZyboTest, forward_reverse_test)
   //EXPECT_NEAR(0.0, vx_actual, 0.05);
   //EXPECT_NEAR(0.0, pdot_actual, 0.02);
 
-  test_info("Setting speed to -5.0 m/s...");
-  cmd_vel.linear.x = -5.0;
-  cmd_vel.angular.z = 0.0;
-  timeDelay(12.0);
-
-  //EXPECT_NEAR(cmd_vel.linear.x, vx_actual, vx_tolerance);
-  //EXPECT_NEAR(cmd_vel.angular.z, pdot_actual, pdot_tolerance);
-
-  test_info("Stopping vehicle...");
-  cmd_vel.linear.x = 0.0;
-  cmd_vel.angular.z = 0.0;
-  timeDelay(6.0);
 }
 
 TEST(ZyboTest, forward_turn_test)
