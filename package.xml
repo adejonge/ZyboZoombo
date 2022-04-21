@@ -6,9 +6,13 @@
   <maintainer email="adejonge@oakland.edu">abc</maintainer>
   <license>MIT</license>
 
+  <url type="repository">https://github.com/adejonge/ZyboZoombo</url>
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <exec_depend>roscpp</exec_depend>
+
+  <test_depend>roslaunch</test_depend>
 
   <export>
   </export>
