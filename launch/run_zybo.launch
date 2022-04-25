@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-
-  <!-- Run your node here! -->
-  <node pkg="zybozoombo" type="zybo_drive" name="zybo_drive"/>
-
-</launch>
