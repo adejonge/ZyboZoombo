@@ -2,6 +2,9 @@
 #include <ros/ros.h>
 
 const double WHEEL_LENGTH =  0.1524; //6in to m
+const int MIDDLE_SERVO_VAL = 75;
+const int TICK_TIMER_FREQ_HZ = 60;
+const float deltaT = 1000.0/TICK_TIMER_FREQ_HZ;
 /*current measurements:
 WHEEL_LENGTH: 0.1524m
 
@@ -11,32 +14,63 @@ WHEEL_LENGTH: 0.1524m
 const double GAMMA = 60;
 
 
+//global variables used for time derivative/integral calculations
+float errorPrev = 0;
+float e_i, e_d = 0;
+
+
 ros::Publisher steering_cmd;
 ros::Publisher cmd_vel;
 
 void timerCallback(const ros::TimerEvent& event){
-  const char * PLCommand = (const char *)0x412F0000;
-  char * ServoOutput = (char *)0x41200000;
-  double v = 5.0;
-  double psi_dot = 0.0;
+  const float* pos = (const float *)0x412F0000;
+  const float* target = (const float *)0x412F0004;
+  const float* kp = (const float *)0x412F0008;
+  const float* ki = (const float *)0x412F000C;
+  const float* kd = (const float *)0x412F0010;
 
-if(*PLCommand == 0) { //strong left
-  v = 2.0;
-  *ServoOutput = 0.0;
-}else if(*PLCommand == 1){ //slight left
-  v = 2.0;
-  *ServoOutput = 50.0;
-}else if(*PLCommand == 2){ //straight
-  v = 2.0;
-  *ServoOutput = 100.0;
-}else if(*PLCommand == 3){ //slight right
-  v = 2.0;
-  *ServoOutput = 150.0;
-}else if(*PLCommand == 4){ //strong right
-  v = 2.0;
-  *ServoOutput = 200.0;
-}
+  int* ServoOutput = (int *)0x41200000;
+  int* MotorOutput = (int *)0x41200004;
+  int ServoVal;
 
+  float error;
+  float u;
+  
+  //    float kp = 0.0, ki=0.0, kd=0.0;
+  //    float error=0. , deltaT = ((1.0/(TICK_TIMER_FREQ_HZ))*1000.) ;
+  //    float e_i=0. , e_d = 0.;
+  //    int target = width/2, pos=0;
+
+    //we already have a delta T, which is based on the frequency of the timer ticker.
+    error = pos - target;
+    //error = pos - target;
+
+    //integral
+    e_i = e_i + (error*deltaT);
+    //derivative
+    e_d = (error - errorPrev) / deltaT;
+
+    //control signal
+        //proportional + integral + derivative
+    u = (*kp * error) + (*ki * e_i) + (*kd * e_d);
+
+    errorPrev = error;
+
+  
+  
+  //Calculate actual servo value to send to controller
+  //  furthest left value is 31, furthest right is 119
+  ServoVal = MIDDLE_SERVO_VAL + (int)u;
+
+  if(ServoVal<30){
+    ServoVal = 31;
+  }else if(ServoVal>120){
+    ServoVal=119;
+  }
+  //Do actual write to memory at the end to avoid controller
+  //  grabbing incorrect value and to reduce time spent accessing memory
+  *ServoOutput = ServoVal;
+  *MotorOutput = 2.0;
 
 }
 
