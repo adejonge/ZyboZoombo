@@ -18,11 +18,4 @@ target_link_libraries(zybo_drive
   ${catkin_LIBRARIES}
 )
 
-add_executable(test_zybo_drive
-  test/test_zybo_drive.cpp
-)
 
-target_link_libraries(test_zybo_drive
-  ${catkin_LIBRARIES}
-  ${GTEST_LIBRARIES}
-)
