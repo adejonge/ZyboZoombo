@@ -21,20 +21,20 @@ void timerCallback(const ros::TimerEvent& event){
   double psi_dot = 0.0;
 
 if(*PLCommand == 0) { //strong left
-  v = 0.0;
-  * ServoOutput = 0.0;
+  v = 2.0;
+  *ServoOutput = 0.0;
 }else if(*PLCommand == 1){ //slight left
-  v = 0.0;
-  * ServoOutput = 0.0;
+  v = 2.0;
+  *ServoOutput = 50.0;
 }else if(*PLCommand == 2){ //straight
-  v = 0.0;
-  * ServoOutput = 0.0;
+  v = 2.0;
+  *ServoOutput = 100.0;
 }else if(*PLCommand == 3){ //slight right
-  v = 0.0;
-  * ServoOutput = 0.0;
+  v = 2.0;
+  *ServoOutput = 150.0;
 }else if(*PLCommand == 4){ //strong right
-  v = 0.0;
-  * ServoOutput = 0.0;
+  v = 2.0;
+  *ServoOutput = 200.0;
 }
 
 
@@ -44,8 +44,6 @@ if(*PLCommand == 0) { //strong left
 int main(int argc, char** argv){
   ros::init(argc,argv,"zybo_drive");
   ros::NodeHandle zybo_drive;
-
-  
 
   ros::Timer marker_timer = zybo_drive.createTimer(ros::Duration(60), timerCallback);
 
